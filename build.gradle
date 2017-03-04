@@ -1,0 +1,33 @@
+apply plugin: 'scala'
+apply plugin: 'com.google.protobuf'
+
+repositories {
+  mavenCentral()
+}
+
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+     classpath "com.google.protobuf:protobuf-gradle-plugin:0.8.1"
+  }
+}
+
+dependencies {
+  compile 'org.scala-lang:scala-library:2.11.8'
+  compile 'io.grpc:grpc-protobuf:1.0.0-pre2'
+}
+
+protobuf {
+  protoc {
+    // The artifact spec for the Protobuf Compiler
+    artifact = 'com.google.protobuf:protoc:3.0.0'
+  }
+  // Configure the codegen plugins
+  plugins {
+    grpc {
+      artifact = 'io.grpc:protoc-gen-grpc-java:1.0.0-pre2'
+    }
+  }
+}
