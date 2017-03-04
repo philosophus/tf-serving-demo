@@ -1,5 +1,6 @@
 apply plugin: 'scala'
 apply plugin: 'com.google.protobuf'
+apply plugin: 'application'
 
 repositories {
   mavenCentral()
@@ -16,18 +17,28 @@ buildscript {
 
 dependencies {
   compile 'org.scala-lang:scala-library:2.11.8'
-  compile 'io.grpc:grpc-protobuf:1.0.0-pre2'
+  compile 'io.grpc:grpc-netty:1.1.2'
+  compile 'io.grpc:grpc-protobuf:1.1.2'
+  compile 'io.grpc:grpc-stub:1.1.2'
+
 }
+
+mainClassName = "com.fdahms.tfservingdemo.Main"
 
 protobuf {
   protoc {
     // The artifact spec for the Protobuf Compiler
-    artifact = 'com.google.protobuf:protoc:3.0.0'
+    artifact = 'com.google.protobuf:protoc:3.0.2'
   }
   // Configure the codegen plugins
   plugins {
     grpc {
-      artifact = 'io.grpc:protoc-gen-grpc-java:1.0.0-pre2'
+      artifact = 'io.grpc:protoc-gen-grpc-java:1.1.2'
+    }
+  }
+  generateProtoTasks {
+    all()*.plugins {
+      grpc {}
     }
   }
 }
